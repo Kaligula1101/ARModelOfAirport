@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A8474A1027886F0100419FA1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8474A0F27886F0100419FA1 /* AppDelegate.swift */; };
-		A8474A1227886F0100419FA1 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = A8474A1127886F0100419FA1 /* art.scnassets */; };
 		A8474A1427886F0100419FA1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8474A1327886F0100419FA1 /* ViewController.swift */; };
 		A8474A1727886F0100419FA1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A8474A1527886F0100419FA1 /* Main.storyboard */; };
 		A8474A1927886F0400419FA1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A8474A1827886F0400419FA1 /* Assets.xcassets */; };
@@ -18,7 +17,6 @@
 /* Begin PBXFileReference section */
 		A8474A0C27886F0100419FA1 /* ARModelOfAirport.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARModelOfAirport.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A8474A0F27886F0100419FA1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A8474A1127886F0100419FA1 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		A8474A1327886F0100419FA1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A8474A1627886F0100419FA1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A8474A1827886F0400419FA1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -56,7 +54,6 @@
 			isa = PBXGroup;
 			children = (
 				A8474A0F27886F0100419FA1 /* AppDelegate.swift */,
-				A8474A1127886F0100419FA1 /* art.scnassets */,
 				A8474A1327886F0100419FA1 /* ViewController.swift */,
 				A8474A1527886F0100419FA1 /* Main.storyboard */,
 				A8474A1827886F0400419FA1 /* Assets.xcassets */,
@@ -123,7 +120,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A8474A1227886F0100419FA1 /* art.scnassets in Resources */,
 				A8474A1C27886F0400419FA1 /* LaunchScreen.storyboard in Resources */,
 				A8474A1927886F0400419FA1 /* Assets.xcassets in Resources */,
 				A8474A1727886F0100419FA1 /* Main.storyboard in Resources */,
