@@ -92,6 +92,8 @@ extension ViewController {
     func startApp() {
         DispatchQueue.main.async {
             self.appState = .detectSurface
+            self.focusNode.isHidden = true
+            self.modelNode.isHidden = true
         }
     }
     
@@ -99,6 +101,8 @@ extension ViewController {
         DispatchQueue.main.async {
             self.resetARSession()
             self.appState = .detectSurface
+            self.modelNode.isHidden = true
+            self.focusNode.isHidden = true
         }
     }
     
