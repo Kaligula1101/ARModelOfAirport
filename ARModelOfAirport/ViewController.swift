@@ -27,6 +27,12 @@ class ViewController: UIViewController {
     var statusMessage: String = ""
     var appState: AppState = .detectSurface
     
+    var focusPoint: CGPoint!
+    
+    var focusNode: SCNNode!
+    
+    var modelNode: SCNNode!
+    
     
     // MARK: - IB Outlets
     @IBOutlet var sceneView: ARSCNView!
@@ -40,13 +46,24 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tapGestureHandler(_ sender: Any) {
+        guard appState == .tapToStart else {
+            return
+        }
+        
+        self.modelNode.isHidden = false
+        self.focusNode.isHidden = true
+        self.modelNode.position = self.focusNode.position
+        
+        appState = .started
     }
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.initScene()
-        self.initARSession()
         self.initCoachingOverlayView()
+        self.initARSession()
+        self.initFocusNode()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -193,6 +210,12 @@ extension ViewController {
         sceneView.scene = scene
         //set view controller as scene view’s delegate
         sceneView.delegate = self
+        
+        let modelScene = SCNScene(named: "art.scnassets/Scenes/AirportScene.scn")!
+        modelNode = modelScene.rootNode.childNode(withName: "Airport", recursively: false)!
+        
+        modelNode.isHidden = true
+        sceneView.scene.rootNode.addChildNode(modelNode)
     }
     
     func updateStatus() {
@@ -209,9 +232,10 @@ extension ViewController {
         
         self.statusLabel.text = trackingStatus != "" ? "\(trackingStatus)" : "\(statusMessage)"
     }
-    // call once for every frame update
+    // Call once for every frame update
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         DispatchQueue.main.async {
+            self.updateFocusNode()
             self.updateStatus()
         }
     }
@@ -221,6 +245,45 @@ extension ViewController {
 // MARK: - Focus Node Management
 extension ViewController {
     
-    // Add code here...
+    func initFocusNode() {
+        let focusScene = SCNScene(named: "art.scnassets/Scenes/FocusScene.scn")!
+        focusNode = focusScene.rootNode.childNode(withName: "Focus", recursively: false)!
+        
+        focusNode.isHidden = true
+        sceneView.scene.rootNode.addChildNode(focusNode)
+        
+        focusPoint = CGPoint(x: view.center.x, y: view.center.y + view.center.y * 0.1)
+        // Notifie the app every time the orientation changes
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.orientationChanged),
+                                               name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
     
+    @objc // Available to the NotificationCenter
+    func orientationChanged() {
+        focusPoint = CGPoint(x: view.center.x, y: view.center.y + view.center.y * 0.1)
+    }
+    
+    func updateFocusNode() {
+        guard appState != .started else {
+            focusNode.isHidden = true
+            return
+        }
+        
+        if let query = self.sceneView.raycastQuery(from: self.focusPoint, allowing: .estimatedPlane, alignment: .horizontal) {
+            let results = self.sceneView.session.raycast(query)
+            if results.count == 1 {
+                if let match = results.first {
+                    // Contains position, orientation and scale information
+                    let hit = match.worldTransform
+                    
+                    self.focusNode.position = SCNVector3(x: hit.columns.3.x, y: hit.columns.3.y, z: hit.columns.3.z)
+                    self.appState = .tapToStart
+                    focusNode.isHidden = false
+                }
+            } else {
+                self.appState = .pointAtSurface
+                focusNode.isHidden = true
+            }
+        }
+    }
 }
